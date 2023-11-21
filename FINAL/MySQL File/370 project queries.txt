@@ -1,0 +1,106 @@
+CREATE DATABASE 370_project;
+USE 370_project;
+
+
+
+
+CREATE TABLE customer (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    address TEXT NOT NULL
+);
+
+
+CREATE TABLE Checkout_Cart (
+    invoice_num INT PRIMARY KEY AUTO_INCREMENT,
+    id INT,
+    FOREIGN KEY (id) REFERENCES Customer(id),
+    total_price INT
+);
+    
+CREATE TABLE Payment (
+    payment_id INT ,
+    invoice_num INT,
+    amount INT,
+    payment_method VARCHAR(255),
+    FOREIGN KEY (invoice_num) REFERENCES checkout_cart(invoice_num),
+    PRIMARY KEY (payment_id , invoice_num)
+);
+    
+CREATE table Supplier (
+    supplier_id INT PRIMARY KEY AUTO_INCREMENT,
+    contact_num INT,
+    supplier_name VARCHAR(50)
+    
+);
+
+
+CREATE TABLE Product (
+    prod_id INT PRIMARY KEY AUTO_INCREMENT,
+    Quantity_in_stock INT,
+    prod_name VARCHAR(50),
+    prod_price INT,
+    ac_name VARCHAR(50),
+    tv_name VARCHAR(50),
+    freezer_name VARCHAR(50),
+    supplier_id INT,
+    FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
+);
+
+CREATE TABLE Delivered_to (
+    prod_id INT,
+    email VARCHAR(255),
+    PRIMARY KEY (prod_id, email), 
+    FOREIGN KEY (prod_id) REFERENCES Product(prod_id),
+    FOREIGN KEY (email) REFERENCES Customer(email)
+);
+
+
+CREATE TABLE Checkout_cart_items_list (
+    invoice_num INT,
+    items_list VARCHAR(500),
+    prod_id INT,
+    Quantity INT,
+    Price INT,
+    FOREIGN KEY (prod_id) REFERENCES Product(prod_id),
+    FOREIGN KEY (invoice_num) REFERENCES Checkout_Cart(invoice_num)
+);
+
+
+
+INSERT INTO Supplier (contact_num, supplier_name)
+VALUES
+    (76543210, 'ABC Suppliers'),
+    (65432109, 'XYZ Distributors'),
+    (54321098, '123 Electronics'),
+    (43210987, 'Global Products'),
+    (32109876, 'Best Supplies'),
+    (21098765, 'Quality Goods'),
+    (10987654, 'Tech Innovators'),
+    (12345678, 'Superior Imports'),
+    (23456789, 'Golden Exports'),
+    (34567890, 'Prime Manufacturers');
+
+
+
+
+INSERT INTO Product (Quantity_in_stock , prod_name, prod_price, ac_name, tv_name, freezer_name, supplier_id)
+VALUES
+    (50 , 'AC', 500, 'Model A', NULL, NULL,  1),
+    (50 , 'TV', 1000, NULL, 'Model X', NULL, 2),
+    (50 ,'Freezer', 800, NULL, NULL, 'Model F',  3),
+    (50 ,'AC', 550, 'Model B', NULL, NULL, 4),
+    (50 , 'TV', 1100, NULL, 'Model Y', NULL,  5),
+    (50 , 'Freezer', 850, NULL, NULL, 'Model G',  6),
+    (50 , 'AC', 520, 'Model C', NULL, NULL,  7),
+    (50 ,'Freezer', 820, NULL, NULL, 'Model H', 8),
+    (0 , 'Freezer', 830, NULL, NULL, 'Model I',  9),
+    (0 , 'Freezer', 810, NULL, NULL, 'Model J',  10);
+
+
+
+ALTER TABLE checkout_cart_items_list ADD CONSTRAINT PK_Person PRIMARY KEY (invoice_num,prod_id);

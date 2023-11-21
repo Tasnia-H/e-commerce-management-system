@@ -1,0 +1,10 @@
+ 
+<form>
+<button type="submit" name="add_to_cart" class="btn btn-primary">Add to cart</button>
+            <input type="hidden" name="prod_name" value="Model C">
+            <input type="hidden" name="price" value="$520">
+
+
+
+<form action="add_to_cart.php" method="POST">
+</form>
